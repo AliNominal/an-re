@@ -29,6 +29,7 @@ if(!(Test-Path $profile) -or ((Select-String -Path $profile -Pattern "oh-my-posh
 {
     # Write the init to our profile
     $ompCommand = "oh-my-posh.exe init pwsh --config ""$themeInstallLocation"" | Invoke-Expression"
+    New-Item -ItemType Directory -Force -Path (Split-Path $profile -Parent)
     Add-Content $profile $ompCommand -Force
 }
 
