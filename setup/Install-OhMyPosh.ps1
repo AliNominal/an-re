@@ -4,8 +4,6 @@ $themeName = Split-Path $themeUrl -Leaf;
 $themeInstallLocation = "$([Environment]::GetFolderPath('MyDocuments'))\OhMyPosh\$themeName"
 $fontsDir = "$([System.Environment]::GetFolderPath('Fonts'))"
 
-& ./Install-Winget.ps1
-
 if(!(Get-Command oh-my-posh -ErrorAction SilentlyContinue))
 {
     # Use winget to install oh-my-posh
