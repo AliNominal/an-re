@@ -25,15 +25,11 @@ if (!(Test-Path $themeInstallLocation)) {
     (New-Object System.Net.WebClient).DownloadFile($themeUrl, "$([Environment]::GetFolderPath('MyDocuments'))\OhMyPosh\$themeName")
 }
 
-if((Select-String -Path $profile -Pattern "oh-my-posh") -eq $null)
+if(!(Test-Path $profile) -or ((Select-String -Path $profile -Pattern "oh-my-posh") -eq $null))
 {
-    if (!(Test-Path $profile)) {
-        New-Item -ItemType File -Path $profile -Force
-    }
-
     # Write the init to our profile
     $ompCommand = "oh-my-posh.exe init pwsh --config ""$themeInstallLocation"" | Invoke-Expression"
-    Add-Content $profile $ompCommand
+    Add-Content $profile $ompCommand -Force
 }
 
 
