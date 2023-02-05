@@ -1,5 +1,5 @@
-& ./setup/Install-Winget.ps1
-& ./setup/Install-OhMyPosh.ps1
+& ./Install-Winget.ps1
+& ./Install-OhMyPosh.ps1
 
 # Programming
 winget install -e --id Microsoft.VisualStudioCode
@@ -42,7 +42,19 @@ $firefoxExePath = (Get-ItemProperty -Path "$key\$version\Main").PathToExe
 if (Test-Path $firefoxExePath) {
   Write-Output "Firefox found at: $firefoxExePath"
   &$firefoxExePath
-  Start-Sleep 5.0
+  # Wait for firefox to launch then wait 5 seconds more for good measure.
+  # Don't accidentally wait forever. Max it out at 60s.
+  $timeout = 60
+  $start = Get-Date
+  while ((Get-Process firefox -ErrorAction SilentlyContinue) -eq $null) {
+    if ((Get-Date) - $start).TotalSeconds -gt $timeout) {
+      Write-Error "Timed out waiting for firefox.exe to start"
+      break
+    }
+    Start-Sleep -Seconds 1
+  }
+  Start-Sleep -Seconds 5
+
 } else {
   Write-Error "firefox.exe path not found in registry at $firefoxExePath"
 }
