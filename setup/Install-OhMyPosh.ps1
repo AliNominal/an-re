@@ -42,4 +42,7 @@ if(!(Test-Path "$fontsDir\Caskaydia Cove Nerd Font Complete Regular.otf"))
     Expand-Archive -Path $filePath -DestinationPath $fontsDir -Force
 
     Remove-Item $filePath
+
+    net stop FontCache
+    net start FontCache
 }
