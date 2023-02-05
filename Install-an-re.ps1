@@ -22,3 +22,4 @@ winget install -e --id Telerik.Fiddler.Classic
 winget install -e --id Mozilla.Firefox
 winget install -e --id Discord.Discord
 winget install -e --id Valve.Steam
+winget install -e --id AgileBits.1Password
