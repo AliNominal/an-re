@@ -66,19 +66,17 @@ if(Test-Path $firefoxProfile)
 {
     Write-Host "Installing arkenfox"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" -OutFile "$firefoxProfile\user.js"
-    Write-Host "Installing extensions"
-    & ./setup/Install-FirefoxExtension.ps1 -ExtensionUri asd -ExtensionPath "$firefoxProfile/extensions" -Hive 'HKLM'
+    
+  Write-Host "Installing extensions"
+  &.\setup\Install-FirefoxExtension.ps1 -ExtensionUri @(
+      "https://addons.mozilla.org/firefox/downloads/file/4047353/ublock_origin-1.46.0.xpi",
+      "https://addons.mozilla.org/firefox/downloads/file/4032427/return_youtube_dislikes-3.0.0.7.xpi",
+      "https://addons.mozilla.org/firefox/downloads/file/4061902/1password_x_password_manager-2.6.0.xpi",
+      "https://addons.mozilla.org/firefox/downloads/file/4058426/multi_account_containers-8.1.2.xpi",
+      "https://addons.mozilla.org/firefox/downloads/file/3920533/skip_redirect-2.3.6.xpi"
+  )
 }
 else
 {
     Write-Warning "Could not find firefox profile."
 }
-
-
-&.\setup\Install-FirefoxExtension.ps1 -ExtensionUri @(
-    "https://addons.mozilla.org/firefox/downloads/file/4047353/ublock_origin-1.46.0.xpi",
-    "https://addons.mozilla.org/firefox/downloads/file/4032427/return_youtube_dislikes-3.0.0.7.xpi",
-    "https://addons.mozilla.org/firefox/downloads/file/4061902/1password_x_password_manager-2.6.0.xpi",
-    "https://addons.mozilla.org/firefox/downloads/file/4058426/multi_account_containers-8.1.2.xpi",
-    "https://addons.mozilla.org/firefox/downloads/file/3920533/skip_redirect-2.3.6.xpi"
-)
