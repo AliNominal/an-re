@@ -28,9 +28,25 @@ winget install -e --id Mozilla.Firefox
 winget install -e --id Discord.Discord
 winget install -e --id Valve.Steam
 
+# Refresh path so nvm is accessable
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
 # Configure node
 nvm install latest
 nvm use latest
+
+# Open firefox so a path to a profile is created
+$key = 'HKLM:\Software\Mozilla\Mozilla Firefox'
+$version = (Get-ItemProperty -Path $key).'CurrentVersion'
+$firefoxExePath = (Get-ItemProperty -Path "$key\$version\Main").PathToExe
+if (Test-Path $firefoxExePath) {
+  Write-Output "Firefox found at: $firefoxExePath"
+  &$firefoxExePath
+  Start-Sleep 5.0
+} else {
+  Write-Error "firefox.exe path not found in registry at $firefoxExePath"
+}
+
 
 # Configure firefox
 $firefoxProfile = (Get-ChildItem -Path "$env:APPDATA\Mozilla\Firefox\Profiles" -Directory | Select-Object -First 1).FullName
@@ -45,6 +61,7 @@ else
 {
     Write-Warning "Could not find firefox profile."
 }
+
 
 &.\setup\Install-FirefoxExtension.ps1 -ExtensionUri @(
     "https://addons.mozilla.org/firefox/downloads/file/4047353/ublock_origin-1.46.0.xpi",
