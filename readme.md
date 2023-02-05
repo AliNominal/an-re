@@ -5,8 +5,10 @@ Set-ExecutionPolicy Unrestricted -Force;
 Expand-Archive -Path "$env:TEMP\an-re.zip" -DestinationPath "$([Environment]::GetFolderPath('Desktop'))" -Force;Remove-Item "$env:TEMP\an-re.zip";
 Copy-Item -Path "$([Environment]::GetFolderPath('Desktop'))\an-re-main\*" -Destination "$([Environment]::GetFolderPath('Desktop'))" -Recurse;
 Remove-Item "$([Environment]::GetFolderPath('Desktop'))\an-re-main\" -Recurse -Force | Out-Null;
+Remove-Item "$([Environment]::GetFolderPath('Desktop'))\readme.md" -Recurse -Force | Out-Null;
 Push-Location "$([Environment]::GetFolderPath('Desktop'))\Setup";
 & "$([Environment]::GetFolderPath('Desktop'))\setup\Install-an-re.ps1";
 Pop-Location;
+# Remove-Item Push-Location "$([Environment]::GetFolderPath('Desktop'))\Setup";
 ```
 
